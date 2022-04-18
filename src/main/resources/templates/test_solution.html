@@ -11,25 +11,12 @@
 <body>
 <div th:insert="/blocks/header :: header"></div>
 
-<!--<div class="container mt-5">-->
-<!--    <h1 th:text="${test.getTest_name()}"></h1>-->
-<!--    <form th:each="el : ${question}" class="alert alert-info mt-2" method="post">-->
-<!--        <h3 th:text="${el.getQuestion_Name()}"></h3>-->
-<!--        <form class="alert alert-info mt-2" method="post">-->
-<!--            <div th:each="ell : ${questions}" >-->
-<!--                <input type="radio" th:if="${ell.getQuestions_id().equals(el.getId().toString())}"-->
-<!--                       th:text="${ell.getQuestion()}" th:name="${el.getId()}">-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </form>-->
-<!--</div>-->
-
 <form method="post">
     <h1 th:text="${test.getTest_name()}"></h1>
     <div th:each="el, iterStat : ${question}" class="alert alert-info mt-2" method="post">
         <h3 th:text="${el.getQuestion_Name()}"></h3>
         <div th:each="ell : ${questions}">
-            <input type="radio" th:if="${ell.getQuestions_id().equals(el.getId().toString())}"
+            <input type="radio" th:if="${el.equals(ell.getQuestions())}"
                    th:text="${ell.getQuestion()}"  th:value="${ell.getQuestion()}" th:name="'answer' + ${iterStat.index+1}">
         </div>
     </div>

@@ -7,16 +7,16 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-public class Tests {
+public class Test {
     private @Id
     @GeneratedValue
     Long id;
     private String test_name;
 
-    public Tests() {
+    public Test() {
     }
 
-    public Tests(String test_name) {
+    public Test(String test_name) {
 
         this.test_name = test_name;
     }
@@ -40,8 +40,8 @@ public class Tests {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tests)) return false;
-        Tests tests = (Tests) o;
+        if (!(o instanceof Test)) return false;
+        Test tests = (Test) o;
         return Objects.equals(getId(), tests.getId()) && Objects.equals(getTest_name(), tests.getTest_name());
     }
 

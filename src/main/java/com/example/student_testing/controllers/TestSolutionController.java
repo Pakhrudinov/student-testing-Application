@@ -1,11 +1,11 @@
 package com.example.student_testing.controllers;
 
-import com.example.student_testing.models.Questions;
-import com.example.student_testing.models.QuestionsAndAnswer;
-import com.example.student_testing.repo.QuestionsAndAnswerRepository;
-import com.example.student_testing.repo.QuestionsRepository;
-import com.example.student_testing.repo.TestsRepository;
-import org.springframework.data.domain.Sort;
+import com.example.student_testing.Service.Service;
+import com.example.student_testing.models.QuestionAndAnswer;
+import com.example.student_testing.repo.QuestionAndAnswerRepository;
+import com.example.student_testing.repo.QuestionRepository;
+import com.example.student_testing.repo.TestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,22 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 @Controller
 public class TestSolutionController {
+    private final Service service;
 
-    private QuestionsAndAnswerRepository questionsAndAnswerRepository;
-    private TestsRepository testsRepository;
-    private QuestionsRepository questionsRepository;
-
-    public TestSolutionController(QuestionsAndAnswerRepository questionsAndAnswerRepository,
-                                  TestsRepository testsRepository,
-                                  QuestionsRepository questionsRepository) {
-        this.questionsAndAnswerRepository = questionsAndAnswerRepository;
-        this.testsRepository = testsRepository;
-        this.questionsRepository = questionsRepository;
+    public TestSolutionController(Service service) {
+        this.service = service;
     }
 
     @GetMapping("/test_solution/{iduser}/{idtest}")
@@ -38,20 +30,11 @@ public class TestSolutionController {
                            @PathVariable Long idtest,
                            Model model) {
 
-        List<QuestionsAndAnswer> questionsAndAnswers = questionsAndAnswerRepository.findAll();
-        List<QuestionsAndAnswer> questionsAndAnswers1 = new ArrayList<>();
+        List<QuestionAndAnswer> questionsAndAnswers = service.getQuestionAndAnswersByTest(service.getByIdTest(idtest));
 
-        for (QuestionsAndAnswer el:
-             questionsAndAnswers) {
-            if (el.getTest_id().equals(idtest.toString())){
-                questionsAndAnswers1.add(el);
-            }
-        }
-
-
-        model.addAttribute("question" , questionsAndAnswers1);
-        model.addAttribute("test", testsRepository.getById(idtest));
-        model.addAttribute("questions", questionsRepository.findAll());
+        model.addAttribute("question" , questionsAndAnswers);
+        model.addAttribute("test", service.getByIdTest(idtest));
+        model.addAttribute("questions", service.findAllQuestion());
         return "test_solution";
     }
 
@@ -66,30 +49,17 @@ public class TestSolutionController {
                            Model model){
 
 
-        List<QuestionsAndAnswer> questionsAndAnswers = questionsAndAnswerRepository.findAll();
-        List<String> questionsAndAnswers1 = new ArrayList<>();
+        List<QuestionAndAnswer> questionsAndAnswers = service.getQuestionAndAnswersByTest(service.getByIdTest(idtest));
         List<String> answers = new ArrayList<>(Arrays.asList(answer1, answer2, answer3, answer4, answer5));
 
 
-
-        for (QuestionsAndAnswer el:
-                questionsAndAnswers) {
-            if (el.getTest_id().equals(idtest.toString())){
-
-                questionsAndAnswers1.add(el.getAnswer());
-            }
-        }
-
         int kanswer = 0;
         for (int i=0; i<5; i++){
-            if (questionsAndAnswers1.get(i).equals(answers.get(i))){
+            if (questionsAndAnswers.get(i).getAnswer().equals(answers.get(i))){
                 kanswer++;
             }
         }
 
-        System.out.println(questionsAndAnswers1);
-        System.out.println(answers);
-        System.out.println(kanswer);
         return "redirect:/total/" + kanswer;
     }
 

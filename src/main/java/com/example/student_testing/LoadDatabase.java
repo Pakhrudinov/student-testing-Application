@@ -1,11 +1,10 @@
+/*
 package com.example.student_testing;
 
-import com.example.student_testing.models.Questions;
-import com.example.student_testing.models.QuestionsAndAnswer;
-import com.example.student_testing.models.Tests;
-import com.example.student_testing.repo.QuestionsAndAnswerRepository;
-import com.example.student_testing.repo.QuestionsRepository;
-import com.example.student_testing.repo.TestsRepository;
+import com.example.student_testing.Service.Service;
+import com.example.student_testing.models.Question;
+import com.example.student_testing.models.QuestionAndAnswer;
+import com.example.student_testing.models.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,78 +17,78 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(TestsRepository testsRepository,
-                                   QuestionsAndAnswerRepository questionsAndAnswerRepository,
-                                   QuestionsRepository questionsRepository) {
+    CommandLineRunner initDatabase(Service service) {
         return args -> {
-            testsRepository.save(new Tests("Первый тест"));
-            testsRepository.save(new Tests("Второй тест"));
+            Test test1 = service.saveTest(new Test("Первый тест"));
+            Test test2 = service.saveTest(new Test("Второй тест"));
 
 
-            testsRepository.findAll().forEach(tests -> log.info("Preloaded" + tests));
+            service.findAllTest().forEach(tests -> log.info("Preloaded" + tests));
 
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Первый вопрос", "Первый вариант ответа", "1"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Второй вопрос", "Третий вариант ответа", "1"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Третий вопрос", "Третий вариант ответа", "1"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Четвертый вопрос", "Третий вариант ответа", "1"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Пятый вопрос", "Третий вариант ответа", "1"));
+            QuestionAndAnswer QAA1 = service.saveQAA(new QuestionAndAnswer("Первый вопрос", "Первый вариант ответа", test1));
+            QuestionAndAnswer QAA2 = service.saveQAA(new QuestionAndAnswer("Второй вопрос", "Третий вариант ответа", test1));
+            QuestionAndAnswer QAA3 = service.saveQAA(new QuestionAndAnswer("Третий вопрос", "Третий вариант ответа", test1));
+            QuestionAndAnswer QAA4 = service.saveQAA(new QuestionAndAnswer("Четвертый вопрос", "Третий вариант ответа", test1));
+            QuestionAndAnswer QAA5 = service.saveQAA(new QuestionAndAnswer("Пятый вопрос", "Третий вариант ответа", test1));
 
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Первый вопрос", "Первый вариант ответа", "2"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Второй вопрос", "Третий вариант ответа", "2"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Третий вопрос", "Третий вариант ответа", "2"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Четвертый вопрос", "Третий вариант ответа", "2"));
-            questionsAndAnswerRepository.save(new QuestionsAndAnswer("Пятый вопрос", "Третий вариант ответа", "2"));
+            QuestionAndAnswer QAA6 = service.saveQAA(new QuestionAndAnswer("Первый вопрос", "Первый вариант ответа", test2));
+            QuestionAndAnswer QAA7 = service.saveQAA(new QuestionAndAnswer("Второй вопрос", "Третий вариант ответа", test2));
+            QuestionAndAnswer QAA8 = service.saveQAA(new QuestionAndAnswer("Третий вопрос", "Третий вариант ответа", test2));
+            QuestionAndAnswer QAA9 = service.saveQAA(new QuestionAndAnswer("Четвертый вопрос", "Третий вариант ответа", test2));
+            QuestionAndAnswer QAA10 = service.saveQAA(new QuestionAndAnswer("Пятый вопрос", "Третий вариант ответа", test2));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "3"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "3"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "3"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "3"));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "4"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "4"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "4"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "4"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA1));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA1));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA1));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA1));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "5"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "5"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "5"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "5"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA2));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA2));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA2));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA2));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "6"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "6"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "6"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "6"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA3));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA3));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA3));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA3));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "7"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "7"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "7"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "7"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA4));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA4));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA4));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA4));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "8"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "8"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "8"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "8"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA5));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA5));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA5));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA5));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "9"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "9"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "9"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "9"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA6));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA6));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA6));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA6));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "10"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "10"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "10"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "10"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA7));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA7));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA7));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA7));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "11"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "11"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "11"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "11"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA8));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA8));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA8));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA8));
 
-            questionsRepository.save(new Questions("Первый вариант ответа", "12"));
-            questionsRepository.save(new Questions("Второй вариант ответа", "12"));
-            questionsRepository.save(new Questions("Третий вариант ответа", "12"));
-            questionsRepository.save(new Questions("Четвертый вариант ответа", "12"));
+            service.saveQuestion(new Question("Первый вариант ответа", QAA9));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA9));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA9));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA9));
+
+            service.saveQuestion(new Question("Первый вариант ответа", QAA10));
+            service.saveQuestion(new Question("Второй вариант ответа", QAA10));
+            service.saveQuestion(new Question("Третий вариант ответа", QAA10));
+            service.saveQuestion(new Question("Четвертый вариант ответа", QAA10));
 
         };
     }
 }
+*/
